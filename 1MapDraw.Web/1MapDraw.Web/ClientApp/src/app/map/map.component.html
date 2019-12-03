@@ -21,7 +21,11 @@
   </div>
   <div class="row">
     <div class="col">
-      saved patterns
+      <table class="table">
+        <tr *ngFor="let mp of paths">
+          <td>{{mp.points.length}}</td>
+        </tr>
+      </table>
     </div>
   </div>
 </form>

@@ -1,22 +1,35 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { Component, AfterViewInit, ViewChild, Inject } from '@angular/core';
 import { FormControl, Validators } from "@angular/forms";
+import { HttpClient } from '@angular/common/http';
+import { reserveSlots } from '@angular/core/src/render3/instructions';
+
+declare var Microsoft: any;
 
 @Component({
   selector: 'app-map',
   templateUrl: './map.component.html',
 })
-export class MapComponent  {
+export class MapComponent implements AfterViewInit {
   @ViewChild('myMap') myMap;
 
   map: any;
   location: any;
   path: MapPath;
 
+  paths: MapPath[];
+
   degrees = new FormControl(null, [
     Validators.required,
     Validators.min(0),
     Validators.max(360)
   ]);
+
+  constructor(http: HttpClient, @Inject('BASE_URL') baseUrl: string) {
+    http.get<MapPath[]>(baseUrl + 'api/Map/Path').subscribe(result => {
+      this.paths = result;
+      console.log(this.paths);
+    }, error => console.error(error));
+  }
 
   ngAfterViewInit() {
     this.path = new MapPath();

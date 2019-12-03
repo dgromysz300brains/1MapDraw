@@ -1,3 +1,5 @@
+using _1MapDraw.Web.BLL;
+using _1MapDraw.Web.DAL;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc;
@@ -26,6 +28,9 @@ namespace _1MapDraw.Web
             {
                 configuration.RootPath = "ClientApp/dist";
             });
+
+            services.AddScoped<IMapRepository, MockMapRepository>();
+            services.AddScoped<IMapService, MapService>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
