@@ -15,15 +15,21 @@
   </div>
   <div class="row">
     <div class="col">
-      <button type="submit" class="btn btn-primary" (click)="move()" [disabled]="!degrees.valid">MOVE</button>
+      <button type="button" class="btn btn-primary" (click)="move()" [disabled]="!degrees.valid">MOVE</button>
       <button type="button" class="btn btn-success" (click)="save()">SAVE</button>
     </div>
   </div>
   <div class="row">
     <div class="col">
+      <h5>Paths</h5>
       <table class="table">
         <tr *ngFor="let mp of paths">
-          <td>{{mp.points.length}}</td>
+          <td>Points: {{mp.points.length}}</td>
+          <td>
+            <span *ngFor="let p of mp.points">
+              {{p.x}}:{{p.y}}
+            </span>
+          </td>
         </tr>
       </table>
     </div>

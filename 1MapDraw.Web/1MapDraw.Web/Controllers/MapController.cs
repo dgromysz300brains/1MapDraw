@@ -22,8 +22,8 @@ namespace _1MapDraw.Web.Controllers
             return mapService.GetPaths();
         }
 
-        [HttpPost("[action]")]
-        public void Path(MapPath path)
+        [HttpPut("[action]")]
+        public void Path([FromBody]MapPath path)
         {
             mapService.SavePath(path);
         }

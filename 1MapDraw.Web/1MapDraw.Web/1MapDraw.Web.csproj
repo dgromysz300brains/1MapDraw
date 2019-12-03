@@ -27,10 +27,16 @@
 
   <ItemGroup>
     <None Remove="ClientApp\src\app\map\map.component.ts" />
+    <None Remove="ClientApp\src\app\map\map.paths.model.ts" />
+    <None Remove="ClientApp\src\app\map\map.point.model.ts" />
+    <None Remove="ClientApp\src\app\map\map.service.ts" />
   </ItemGroup>
 
   <ItemGroup>
     <TypeScriptCompile Include="ClientApp\src\app\map\map.component.ts" />
+    <TypeScriptCompile Include="ClientApp\src\app\map\map.paths.model.ts" />
+    <TypeScriptCompile Include="ClientApp\src\app\map\map.point.model.ts" />
+    <TypeScriptCompile Include="ClientApp\src\app\map\map.service.ts" />
   </ItemGroup>
 
   <Target Name="DebugEnsureNodeEnv" BeforeTargets="Build" Condition=" '$(Configuration)' == 'Debug' And !Exists('$(SpaRoot)node_modules') ">
