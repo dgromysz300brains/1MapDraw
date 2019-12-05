@@ -14,10 +14,14 @@ declare var Microsoft: any;
   templateUrl: './map.component.html',
 })
 export class MapComponent implements AfterViewInit {
-  @ViewChild('myMap') myMap;
+  width = 500;
+  height = 500;
+  length = 20;
 
-  map: any;
-  location: any;
+  @ViewChild('mapCanvas') mapCanvas;
+
+  location: MapPoint;
+  lineLength = 20;
   path: MapPath;
 
   paths: MapPath[];
@@ -33,41 +37,17 @@ export class MapComponent implements AfterViewInit {
   }
 
   ngAfterViewInit() {
-    this.path = new MapPath();
-
-    this.initMap();
-
-    this.path.points = [];
-    this.addPoint(this.mapPoint(this.location));
+    this.reset();
   }
 
-  move() {
-    if (this.degrees.value) {
-      var degrees = 0.001 * parseInt(this.degrees.value);
+  move() {    
+      var degrees = parseInt(this.degrees.value);
 
       this.drawLine(degrees);
-
-      this.addPoint(this.mapPoint(this.location));
-    }
   }
 
   save() {
     this.savePath();
-  }
-
-  initMap() {
-    this.location = new Microsoft.Maps.Location(57.700668, 11.96822);
-    this.map = new Microsoft.Maps.Map(this.myMap.nativeElement, {
-      credentials: 'At7beKz6qfmtyHbb-YOLiDZOr1imz2d0py41s5ktQLGwHOfoKrXw6Wx51uizCLmE',
-      center: this.location,
-      zoom: 15
-    });
-
-    var pushpin = new Microsoft.Maps.Pushpin(this.map.getCenter(), null);
-
-    var layer = new Microsoft.Maps.Layer();
-    layer.add(pushpin);
-    this.map.layers.insert(layer);
   }
 
   getPaths() {
@@ -80,9 +60,9 @@ export class MapComponent implements AfterViewInit {
   savePath() {
     if (this.path.points.length > 0) {
       this.mapService.savePath(this.path).subscribe(result => {
-        this.paths.push(this.path);
-        this.path = new MapPath();
-        this.addPoint(this.mapPoint(this.location));
+        var path = this.path;
+        this.reset();
+        this.paths.push(path);
 
         console.log("path saved");
       }, error => console.error(error));
@@ -93,20 +73,40 @@ export class MapComponent implements AfterViewInit {
 
   addPoint(point: MapPoint) {
     this.path.points.push(point);
-  }
-
-  mapPoint(uiMapPoint: any): MapPoint {
-    let mapPoint = new MapPoint();
-    mapPoint.x = this.location.latitude;
-    mapPoint.y = this.location.longitude;
-
-    return mapPoint;
+    this.location = point;
   }
 
   drawLine(degrees: number) {
-    let newLocation = new Microsoft.Maps.Location(this.location.latitude, this.location.longitude + degrees);
-    var polyline = new Microsoft.Maps.Polyline([this.location, newLocation], null);
-    this.location = newLocation;
-    this.map.entities.push(polyline);
+    var ctx = this.mapCanvas.nativeElement.getContext("2d");
+    let x1 = this.location.x;
+    let y1 = this.location.y;
+    let r = this.length;
+    let x2 = x1 + r * Math.cos(Math.PI * degrees / 180.0);
+    let y2 = y1 + r * Math.sin(Math.PI * degrees / 180.0);
+
+    if (x2 < 0 || x2 > this.width) {
+      alert('x error');
+      return;
+    }
+
+    if (y2 < 0 || y2 > this.height) {
+      alert('y error');
+      return;
+    }
+
+    ctx.moveTo(x1, y1);
+    ctx.lineTo(x2, y2);
+    ctx.stroke();
+
+    //console.log({ x1: x1, y1: y1, x2: x2, y2: y2 });
+
+    this.addPoint({ x: x2, y: y2 });
+  }
+
+  reset() {
+    this.path = new MapPath();
+    this.path.points = [];
+    let point: MapPoint = { x: this.width / 2, y: this.height / 2 };
+    this.addPoint(point);
   }
 }

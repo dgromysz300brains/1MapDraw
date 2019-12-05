@@ -2,7 +2,8 @@
 <form>
   <div class="row">
     <div class="col">
-      <div #myMap style='width: 100%; height: 500px;'></div> 
+      <iframe width="500" height="500" frameborder="0" src="https://www.bing.com/maps/embed?h=500&w=500&cp=57.70267405261092~11.966448750621876&lvl=13&typ=s&sty=r&src=SHELL&FORM=MBEDV8" scrolling="no"></iframe>
+      <canvas #mapCanvas width="500" height="500" style="position: relative; left: -500px;"></canvas>
     </div>
   </div>
   <div class="row">
@@ -23,14 +24,20 @@
     <div class="col">
       <h5>Paths</h5>
       <table class="table">
-        <tr *ngFor="let mp of paths">
-          <td>Points: {{mp.points.length}}</td>
-          <td>
-            <span *ngFor="let p of mp.points">
-              {{p.x}}:{{p.y}}
-            </span>
-          </td>
-        </tr>
+        <tbody>
+          <tr *ngFor="let mp of paths">
+            <td>Points count: {{mp.points.length}}</td>
+            <td>
+              <table class="table-small">
+                <tbody>
+                  <tr *ngFor="let p of mp.points">
+                    x: {{p.x}}, y: {{p.y}}
+                  </tr>
+                </tbody>
+              </table>
+            </td>
+          </tr>
+        </tbody>
       </table>
     </div>
   </div>

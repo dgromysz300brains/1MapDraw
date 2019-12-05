@@ -12,25 +12,25 @@ namespace _1MapDraw.Web.DAL
             {
                 Points = new List<MapPoint>
                 {
-                    new MapPoint { X = 57.700668M, Y = 11.96822M },
-                    new MapPoint { X = 57.700668M, Y = 11.96821M },
-                    new MapPoint { X = 57.700668M, Y = 11.96820M }
+                    new MapPoint { X = 250, Y = 250 },
+                    new MapPoint { X = 250, Y = 270 },
+                    new MapPoint { X = 270, Y = 270 }
                 }
             },
             new MapPath
             {
                 Points = new List<MapPoint>
                 {
-                    new MapPoint { X = 57.700668M, Y = 11.96822M },
-                    new MapPoint { X = 57.700668M, Y = 11.96741M }
+                    new MapPoint { X = 250, Y = 250 },
+                    new MapPoint { X = 270, Y = 250 }
                 }
             },
             new MapPath
             {
                 Points = new List<MapPoint>
                 {
-                    new MapPoint { X = 57.700668M, Y = 11.96822M },
-                    new MapPoint { X = 57.700755M, Y = 11.96821M }
+                    new MapPoint { X = 250, Y = 250 },
+                    new MapPoint { X = 250, Y = 270 }
                 }
             }
         };
